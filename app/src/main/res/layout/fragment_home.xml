@@ -21,12 +21,13 @@
 
         <q.rorbin.verticaltablayout.VerticalTabLayout
             android:id="@+id/tablayout"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="match_parent"
             app:tab_height="50dp"
             app:tab_mode="scrollable" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

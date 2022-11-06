@@ -5,16 +5,23 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.examination.MySQL
 import com.example.examination.R
 import com.example.examination.databinding.FragmentHomeBinding
+import com.example.examination.item
+import com.example.examination.itemAdapter
+import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.adapter.TabAdapter
 import q.rorbin.verticaltablayout.widget.ITabView
+import q.rorbin.verticaltablayout.widget.TabView
+import java.sql.SQLException
 import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
@@ -25,7 +32,7 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    lateinit var adapter: itemAdapter
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -58,6 +65,17 @@ class HomeFragment : Fragment() {
                                 return 0
                             }
                         })
+                    showType("手机", 1)
+                }
+                1 -> {
+                    val layoutManager = LinearLayoutManager(activity)
+                    binding.recyclerView.layoutManager = layoutManager
+                    adapter = activity?.let { itemAdapter(homeViewModel.itemList, it) }!!
+                    binding.recyclerView.adapter = adapter
+                }
+                2 -> {
+                    adapter.notifyItemRangeRemoved(0, homeViewModel.itemList.size);
+                    adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
                 }
                 else -> {}
             }
@@ -82,15 +100,25 @@ class HomeFragment : Fragment() {
             mysql.connect()
             val resultSet = MySQL.ps?.executeQuery("select DISTINCT type from items;")
             if (resultSet != null) {
+                homeViewModel.typeList.clear()
                 while (resultSet.next()) {
                     homeViewModel.typeList.add(resultSet.getString("type"))
                 }
             }
-            homeViewModel.typeList.add("wqeqwe")
             mHandler.sendEmptyMessage(0)
         }
 
+        binding.tablayout.addOnTabSelectedListener(
+            object : VerticalTabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabView?, position: Int) {
+                    showType(homeViewModel.typeList[position], 2)
+                }
 
+                override fun onTabReselected(tab: TabView?, position: Int) {
+                    showType(homeViewModel.typeList[position], 2)
+                }
+            }
+        )
         return root
     }
 
@@ -99,4 +127,33 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    fun showType(type: String, tag: Int) {
+        thread {
+            val resultSet = MySQL.ps?.executeQuery("select * from items where type='$type';")
+            if (resultSet != null) {
+                try {
+                    homeViewModel.itemList.clear()
+                    while (resultSet.next()) {
+                        homeViewModel.itemList.add(
+                            item(
+                                resultSet.getInt("id"),
+                                resultSet.getString("type"),
+                                resultSet.getString("price"),
+                                resultSet.getString("item_name"),
+                                resultSet.getString("buyer_sum"),
+                                resultSet.getString("shop_name"),
+                                resultSet.getString("shop_locate"),
+                                resultSet.getString("pic_url")
+                            )
+                        )
+                    }
+                } catch (e: NullPointerException) {
+                    Log.e("MySQL", "nullPointerERROR")
+                } catch (e: SQLException) {
+                    Log.e("MySQL", "Operation not allowed after ResultSet closed")
+                }
+            }
+            mHandler.sendEmptyMessage(tag)
+        }
+    }
 }
