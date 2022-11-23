@@ -31,6 +31,9 @@ class MySQL {
         } catch (e: SQLException) {
             Log.e("MySQL", "ERROR")
             e.printStackTrace()
+        } catch (e: java.net.SocketException) {
+            Log.e("MySQL", "java.net.SocketException")
+            e.printStackTrace()
         }
     }
 }

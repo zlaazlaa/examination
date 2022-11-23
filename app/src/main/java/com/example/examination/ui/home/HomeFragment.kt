@@ -68,13 +68,17 @@ class HomeFragment : Fragment() {
                     showType("手机", 1)
                 }
                 1 -> {
-                    val layoutManager = LinearLayoutManager(activity)
-                    binding.recyclerView.layoutManager = layoutManager
-                    adapter = activity?.let { itemAdapter(homeViewModel.itemList, it) }!!
-                    binding.recyclerView.adapter = adapter
+                    try {
+                        val layoutManager = LinearLayoutManager(activity)
+                        binding.recyclerView.layoutManager = layoutManager
+                        adapter = activity?.let { itemAdapter(homeViewModel.itemList, it) }!!
+                        binding.recyclerView.adapter = adapter
+                    } catch (e: java.lang.NullPointerException) {
+                        Log.e("error", "java.lang.NullPointerException")
+                    }
                 }
                 2 -> {
-                    adapter.notifyItemRangeRemoved(0, homeViewModel.itemList.size);
+//                    adapter.notifyItemRangeRemoved(0, homeViewModel.itemList.size);
                     adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
                 }
                 else -> {}
