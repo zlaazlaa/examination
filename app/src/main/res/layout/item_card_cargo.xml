@@ -3,23 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="15dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/float_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="TODO"
-        android:src="@drawable/cargo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/purple_200" />
-
     <LinearLayout
+        android:id="@+id/whole_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:orientation="horizontal"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -28,47 +20,45 @@
             android:layout_height="0dp"
             android:visibility="gone" />
 
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="390dp"
-            android:layout_height="390dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:contentDescription="@string/item_picture"
             android:transitionName="item_image" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
                 android:textStyle="bold"
                 android:transitionName="item_name" />
 
             <LinearLayout
-                android:id="@+id/price_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:transitionName="price_layout">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/dolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="￥"
                     android:textColor="#e4393c"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:transitionName="dolor" />
 
@@ -76,56 +66,90 @@
                     android:id="@+id/item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="123.32"
                     android:textColor="#e4393c"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:transitionName="item_price" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/down_img"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/down"
+                    app:tint="@color/purple_200" />
+
+                <TextView
+                    android:id="@+id/buy_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="0"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/up_img"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/up"
+                    app:tint="@color/purple_200" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/buyer_sum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#999999"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     android:transitionName="buyer_sum"
                     tools:ignore="SmallSp" />
 
                 <TextView
                     android:id="@+id/shop_locate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textSize="15sp"
-                    android:transitionName="shop_locate" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/shop_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#999999"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     android:transitionName="shop_name" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.example.examination.ui.dashboard
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.examination.item
 
 class DashboardViewModel : ViewModel() {
 
@@ -10,4 +11,5 @@ class DashboardViewModel : ViewModel() {
         value = "This is dashboard Fragment"
     }
     val text: LiveData<String> = _text
+    val itemList = ArrayList<item>()
 }

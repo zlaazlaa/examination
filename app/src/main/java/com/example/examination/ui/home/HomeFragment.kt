@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
                     try {
                         val layoutManager = LinearLayoutManager(activity)
                         binding.recyclerView.layoutManager = layoutManager
-                        adapter = activity?.let { itemAdapter(homeViewModel.itemList, it) }!!
+                        adapter = activity?.let { itemAdapter(homeViewModel.itemList, it, false) }!!
                         binding.recyclerView.adapter = adapter
                     } catch (e: java.lang.NullPointerException) {
                         Log.e("error", "java.lang.NullPointerException")
@@ -79,7 +79,11 @@ class HomeFragment : Fragment() {
                 }
                 2 -> {
 //                    adapter.notifyItemRangeRemoved(0, homeViewModel.itemList.size);
-                    adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
+                    try {
+                        adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
+                    } catch (e: java.lang.IndexOutOfBoundsException) {
+                        Log.e("error", "java.lang.IndexOutOfBoundsException")
+                    }
                 }
                 else -> {}
             }
@@ -147,7 +151,8 @@ class HomeFragment : Fragment() {
                                 resultSet.getString("buyer_sum"),
                                 resultSet.getString("shop_name"),
                                 resultSet.getString("shop_locate"),
-                                resultSet.getString("pic_url")
+                                resultSet.getString("pic_url"),
+                                resultSet.getInt("number")
                             )
                         )
                     }

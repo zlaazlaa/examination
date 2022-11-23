@@ -8,5 +8,6 @@ class item(
     val buyer_sum: String,
     val shop_name: String,
     val shop_locate: String,
-    val pic_url: String
+    val pic_url: String,
+    var number: Int,
 )
