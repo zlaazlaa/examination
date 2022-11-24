@@ -13,6 +13,12 @@
         android:orientation="horizontal"
         tools:ignore="MissingConstraints">
 
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/item_id"
             android:layout_width="0dp"
@@ -23,7 +29,8 @@
             android:id="@+id/down_img"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:contentDescription="TODO" />
 
         <ImageView
             android:id="@+id/up_img"
@@ -35,7 +42,7 @@
             android:id="@+id/buy_number"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/item_image"
@@ -70,8 +77,8 @@
                     android:text="￥"
                     android:textColor="#e4393c"
                     android:textSize="15sp"
-                    android:transitionName="dolor"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:transitionName="dolor" />
 
                 <TextView
                     android:id="@+id/item_price"

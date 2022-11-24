@@ -10,4 +10,5 @@ class item(
     val shop_locate: String,
     val pic_url: String,
     var number: Int,
+    var isChecked: Boolean
 )

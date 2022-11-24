@@ -71,7 +71,12 @@ class HomeFragment : Fragment() {
                     try {
                         val layoutManager = LinearLayoutManager(activity)
                         binding.recyclerView.layoutManager = layoutManager
-                        adapter = activity?.let { itemAdapter(homeViewModel.itemList, it, false) }!!
+                        adapter = activity?.let { itemAdapter(
+                            homeViewModel.itemList,
+                            it,
+                            false,
+                            null
+                        ) }!!
                         binding.recyclerView.adapter = adapter
                     } catch (e: java.lang.NullPointerException) {
                         Log.e("error", "java.lang.NullPointerException")
@@ -152,7 +157,8 @@ class HomeFragment : Fragment() {
                                 resultSet.getString("shop_name"),
                                 resultSet.getString("shop_locate"),
                                 resultSet.getString("pic_url"),
-                                resultSet.getInt("number")
+                                resultSet.getInt("number"),
+                                false
                             )
                         )
                     }

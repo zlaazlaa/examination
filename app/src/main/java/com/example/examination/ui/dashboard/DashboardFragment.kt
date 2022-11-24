@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.examination.MySQL
+import com.example.examination.R
 import com.example.examination.databinding.FragmentDashboardBinding
 import com.example.examination.item
 import com.example.examination.itemAdapter
+import okhttp3.internal.notifyAll
 import java.sql.SQLException
 import kotlin.concurrent.thread
 
@@ -28,8 +29,23 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var adapter: itemAdapter
 
+    private val mHandler2 = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when (msg.what) {
+                0 -> {
+                    Log.e("handler", "ok")
+                    updateSum()
+                }
+            }
+        }
+    }
+
+
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
+        @SuppressLint("NotifyDataSetChanged")
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
@@ -38,11 +54,23 @@ class DashboardFragment : Fragment() {
                         val layoutManager = LinearLayoutManager(activity)
                         binding.recyclerView.layoutManager = layoutManager
                         adapter =
-                            activity?.let { itemAdapter(dashboardViewModel.itemList, it, true) }!!
+                            activity?.let {
+                                itemAdapter(
+                                    dashboardViewModel.itemList,
+                                    it,
+                                    true,
+                                    mHandler2
+                                )
+                            }!!
                         binding.recyclerView.adapter = adapter
+                        updateSum()
                     } catch (e: java.lang.NullPointerException) {
                         Log.e("error", "java.lang.NullPointerException")
                     }
+                }
+                1 -> {
+                    adapter.notifyDataSetChanged()
+                    updateSum()
                 }
             }
         }
@@ -58,6 +86,15 @@ class DashboardFragment : Fragment() {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        setHasOptionsMenu(true)
+
+        binding.floatBtn.setOnClickListener {
+            val sql = "update android.items set number = 123 WHERE FIND_IN_SET (id,'"
+            for (item in dashboardViewModel.itemList) {
+                if (item.isChecked) sql + "${item.id}"
+            }
+        }
 
         thread {
             val mysql = MySQL()
@@ -77,7 +114,8 @@ class DashboardFragment : Fragment() {
                                 resultSet.getString("shop_name"),
                                 resultSet.getString("shop_locate"),
                                 resultSet.getString("pic_url"),
-                                resultSet.getInt("number")
+                                resultSet.getInt("number"),
+                                false
                             )
                         )
                     }
@@ -90,11 +128,48 @@ class DashboardFragment : Fragment() {
             mHandler.sendEmptyMessage(0)
         }
 
+
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_optionmenu, menu)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        when (item.itemId) {
+            R.id.menu1 -> {
+                thread {
+                    val mysql  = MySQL()
+                    mysql.connect()
+                    dashboardViewModel.itemList.clear()
+                    val result = MySQL.ps?.executeUpdate("update android.items set number = 0 where number > 0 and id < 1000")
+                    result!! > 0
+                    mHandler.sendEmptyMessage(1)
+                }
+            }
+            else -> {
+                Log.e("ERROR", "error")
+                return true
+            }
+        }
+        return true
+    }
+
+    fun updateSum() {
+        var sum = 0.0
+        for (item in dashboardViewModel.itemList) {
+            sum += item.number * item.price.toFloat()
+        }
+        binding.totalPrice.text = sum.toString()
     }
 }
