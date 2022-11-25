@@ -1,13 +1,14 @@
 package com.example.examination.ui.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.examination.databinding.FragmentNotificationsBinding
+import com.example.examination.Setting
 
 class NotificationsFragment : Fragment() {
 
@@ -27,10 +28,9 @@ class NotificationsFragment : Fragment() {
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.setting.setOnClickListener {
+            val intent = Intent(activity, Setting::class.java)
+            startActivity(intent)
         }
         return root
     }

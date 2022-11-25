@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.drawToBitmap
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import java.io.ByteArrayOutputStream
@@ -26,7 +27,7 @@ import kotlin.concurrent.thread
 class itemAdapter(
     private val itemList: ArrayList<item>,
     private val context: Context,
-    val tag: Boolean,
+    val tag: Int,
     val mHandler2: Handler?,
 ) :
     RecyclerView.Adapter<itemAdapter.ViewHolder>() {
@@ -44,11 +45,12 @@ class itemAdapter(
         val upImg: ImageView = view.findViewById(R.id.up_img)
         val downImg: ImageView = view.findViewById(R.id.down_img)
         val checkBox: CheckBox = view.findViewById(R.id.check_box)
+        val xxx:TextView = view.findViewById(R.id.xxx)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         lateinit var view: View
-        if (!tag) {
+        if (tag == 0) {
             view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
         } else {
             view =
@@ -58,6 +60,12 @@ class itemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (tag == 2) {
+            holder.checkBox.isVisible = false
+            holder.upImg.isVisible = false
+            holder.downImg.isVisible = false
+            holder.xxx.isVisible = true
+        }
         val item = itemList[position]
         Glide.with(context).load(item.pic_url).into(holder.itemImage)
         holder.itemId.text = item.id.toString()

@@ -4,4 +4,19 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="item_picture">item picture</string>
+    <string name="my_order">我的订单</string>
+    <string name="all">全部</string>
+    <string name="wait_to_pay">待付款</string>
+    <string name="wait_to_send">待发货</string>
+    <string name="sending">已发货</string>
+    <string name="wait_to_score">待评价</string>
+    <string name="scored">已评价</string>
+    <string name="setting">设置</string>
+    <string name="name">姓名</string>
+    <string name="phone">手机号</string>
+    <string name="address">收货地址</string>
+    <string name="other_info">备注信息</string>
+    <string name="pay">支付方式</string>
+    <string name="edit_info">修改信息</string>
+    <string name="confirm_edit">确认更改</string>
 </resources>

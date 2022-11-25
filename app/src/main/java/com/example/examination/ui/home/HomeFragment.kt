@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
                         adapter = activity?.let { itemAdapter(
                             homeViewModel.itemList,
                             it,
-                            false,
+                            0,
                             null
                         ) }!!
                         binding.recyclerView.adapter = adapter
