@@ -7,6 +7,9 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import android.view.*
+import android.widget.CheckBox
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +21,7 @@ import java.sql.SQLException
 import kotlin.concurrent.thread
 
 class DashboardFragment : Fragment() {
+    lateinit var layoutManager: LinearLayoutManager
 
     private var _binding: FragmentDashboardBinding? = null
     var dashboardViewModel = DashboardViewModel()
@@ -49,7 +53,7 @@ class DashboardFragment : Fragment() {
             when (msg.what) {
                 0 -> {
                     try {
-                        val layoutManager = LinearLayoutManager(activity)
+                        layoutManager = LinearLayoutManager(activity)
                         binding.recyclerView.layoutManager = layoutManager
                         adapter =
                             activity?.let {
@@ -61,6 +65,9 @@ class DashboardFragment : Fragment() {
                                 )
                             }!!
                         binding.recyclerView.adapter = adapter
+                        if (dashboardViewModel.itemList.size == 0) {
+                            binding.emptyLayout.isVisible = true
+                        }
                         updateSum()
                     } catch (e: java.lang.NullPointerException) {
                         Log.e("error", "java.lang.NullPointerException")
@@ -69,6 +76,9 @@ class DashboardFragment : Fragment() {
                 1 -> {
                     adapter.notifyDataSetChanged()
                     updateSum()
+                    if (dashboardViewModel.itemList.size == 0) {
+                        binding.emptyLayout.isVisible = true
+                    }
                 }
             }
         }
@@ -88,6 +98,10 @@ class DashboardFragment : Fragment() {
         setHasOptionsMenu(true)
 
         binding.floatBtn.setOnClickListener {
+            if (dashboardViewModel.itemList.size == 0) {
+                Toast.makeText(activity, "购物车为空", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val arrayId = ArrayList<Int>()
             val itemList = dashboardViewModel.itemList
             var sql = "update items set number = 0 WHERE FIND_IN_SET (id,'"
@@ -102,7 +116,10 @@ class DashboardFragment : Fragment() {
             intent.putExtra("id", arrayId)
             startActivity(intent)
         }
+        return root
+    }
 
+    private fun refreshData() {
         thread {
             val mysql = MySQL()
             mysql.connect()
@@ -134,15 +151,16 @@ class DashboardFragment : Fragment() {
             }
             mHandler.sendEmptyMessage(0)
         }
-
-
-
-        return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -165,6 +183,28 @@ class DashboardFragment : Fragment() {
                     mHandler.sendEmptyMessage(1)
                 }
             }
+            R.id.menu2 -> {
+                try {
+                    var view: View
+                    for (i in 0 until layoutManager.itemCount) {
+                        view = layoutManager.findViewByPosition(i)!!
+                        view.findViewById<CheckBox>(R.id.check_box).isChecked = true
+                    }
+                } catch (e: java.lang.NullPointerException) {
+                    Log.e("ERROR", "ERROR9824")
+                }
+            }
+            R.id.menu3 -> {
+                try {
+                    var view: View
+                    for (i in 0 until layoutManager.itemCount) {
+                        view = layoutManager.findViewByPosition(i)!!
+                        view.findViewById<CheckBox>(R.id.check_box).isChecked = false
+                    }
+                } catch (e: java.lang.NullPointerException) {
+                    Log.e("ERROR", "ERROR9825")
+                }
+            }
             else -> {
                 Log.e("ERROR", "error")
                 return true
@@ -174,7 +214,7 @@ class DashboardFragment : Fragment() {
     }
 
     fun updateSum() {
-        var sum = 0.0
+        var sum = 0.00
         for (item in dashboardViewModel.itemList) {
             sum += item.number * item.price.toFloat()
         }
