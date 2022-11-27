@@ -155,8 +155,6 @@ class itemAdapter(
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return result
     }
-
 }

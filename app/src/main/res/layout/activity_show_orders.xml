@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ShowOrders">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_hello"
+        android:name="com.example.examination.TabLayoutFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints" />
+
+    <!--    <com.google.android.material.tabs.TabLayout-->
+    <!--        android:id="@+id/tab_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:tabSelectedTextColor="@color/colorPrimaryDark"-->
+    <!--        app:tabTextColor="@color/colorPrimary" />-->
+
+    <!--    <androidx.viewpager2.widget.ViewPager2-->
+    <!--        android:id="@+id/view_pager"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tab_layout" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.examination.databinding.FragmentNotificationsBinding
 import com.example.examination.Setting
+import com.example.examination.ShowOrders
 
 class NotificationsFragment : Fragment() {
 
@@ -30,6 +31,10 @@ class NotificationsFragment : Fragment() {
         val root: View = binding.root
         binding.setting.setOnClickListener {
             val intent = Intent(activity, Setting::class.java)
+            startActivity(intent)
+        }
+        binding.totalOrder.setOnClickListener {
+            val intent = Intent(activity, ShowOrders::class.java)
             startActivity(intent)
         }
         return root
