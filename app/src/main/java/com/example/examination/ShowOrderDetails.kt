@@ -1,6 +1,7 @@
 package com.example.examination
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,9 @@ class ShowOrderDetails : AppCompatActivity() {
                 3 -> {
                     Toast.makeText(this@ShowOrderDetails, "收获失败", Toast.LENGTH_SHORT).show()
                 }
+                4 -> {
+                    Toast.makeText(this@ShowOrderDetails, "支付失败", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -53,7 +57,9 @@ class ShowOrderDetails : AppCompatActivity() {
         binding.orderStatus.text = intent.getStringExtra("order_status")
         binding.scoreNow.text = intent.getStringExtra("score")
         val idOrderItem = intent.getStringExtra("id_order_item").toString().toInt()
+        val itemId = intent.getStringExtra("item_id")
         val score = binding.scoreNow.text.toString().toInt()
+        val order_id = intent.getStringExtra("order_id")
         if (score in 1..5) {
             Listener().lightStar(score - 1)
         }
@@ -67,6 +73,9 @@ class ShowOrderDetails : AppCompatActivity() {
         binding.star3.setOnClickListener(Listener())
         binding.star4.setOnClickListener(Listener())
         binding.star5.setOnClickListener(Listener())
+        if (binding.orderStatus.text == "待付款") {
+            binding.confirmOrder.text = "继续付款"
+        }
         binding.scoreBtn.setOnClickListener {
             if (binding.orderStatus.text != "待评价") {
                 Toast.makeText(this, "当前状态不能评价", Toast.LENGTH_SHORT).show()
@@ -76,14 +85,14 @@ class ShowOrderDetails : AppCompatActivity() {
                 try {
                     val mysql = MySQL()
                     mysql.connect()
-                    var sql =
+                    val sql =
                         "update order_item set score = ${binding.scoreNow.text} where idorder_item = $idOrderItem;"
                     val result = MySQL.ps?.executeUpdate(sql)
                     if (result != null) {
                         if (result > 0) {
-                            sql =
-                                "update orders set statement = 5 where order_id = (select order_id from order_item where idorder_item = $idOrderItem);"
-                            MySQL.ps?.executeUpdate(sql)
+//                            sql =
+//                                "update orders set statement where order_id = (select orders.order_id from order_item, orders where (order_item.order_id = orders.order_id) and (order_item.idorder_item = $idOrderItem));"
+//                            MySQL.ps?.executeUpdate(sql)
                             mHandler.sendEmptyMessage(0)
                         } else {
                             mHandler.sendEmptyMessage(1)
@@ -97,6 +106,50 @@ class ShowOrderDetails : AppCompatActivity() {
             }
         }
         binding.confirmOrder.setOnClickListener {
+            if (binding.orderStatus.text == "待付款") {
+                val arrayId = ArrayList<Int>()
+                if (itemId != null) {
+                    arrayId.add(itemId.toInt())
+                }
+                thread {
+                    try {
+                        val mysql = MySQL()
+                        mysql.connect()
+                        // restore the buy_number
+                        var sql =
+                            "update items set number = ${binding.itemNumber.text} WHERE id = $itemId;"
+                        val result = MySQL.ps?.executeUpdate(sql)
+                        if (result != null) {
+                            if (result > 0) {
+                                thread {
+                                    try {
+                                        // delete order
+                                        sql = "update orders set statement = 6 where order_id = $order_id;"
+                                        val result2 = MySQL.ps?.executeUpdate(sql)
+                                        if (result2 != null) {
+                                            if (result2 > 0) {
+                                                val intent = Intent(this, CommitOrder::class.java)
+                                                intent.putExtra("id", arrayId)
+                                                startActivity(intent)
+                                                mHandler.sendEmptyMessage(0)
+                                            }
+                                        }
+                                    } finally {
+
+                                    }
+                                }
+                            } else {
+                                mHandler.sendEmptyMessage(5)
+                            }
+                        } else {
+                            mHandler.sendEmptyMessage(1)
+                        }
+                    } finally {
+
+                    }
+                }
+                return@setOnClickListener
+            }
             if (binding.orderStatus.text != "已发货") {
                 Toast.makeText(this, "当前状态不能收货", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

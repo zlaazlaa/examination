@@ -10,5 +10,6 @@ class OrderItem(
     val itemName: String,
     val itemImgUrl: String,
     var priceTotal: String,
-    val score: Int
+    val score: Int,
+    val orderId: Int
 )

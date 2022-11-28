@@ -9,12 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.examination.databinding.FragmentTabLayoutBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import okhttp3.internal.notifyAll
 import kotlin.concurrent.thread
 
 class TabLayoutFragment : Fragment() {
@@ -34,14 +34,8 @@ class TabLayoutFragment : Fragment() {
             super.handleMessage(msg)
             when (msg.what) {
                 0 -> {
-                    demoCollectionAdapter = DemoCollectionAdapter(
-                        this@TabLayoutFragment,
-                        orderItemList,
-                        activity
-                    )
-                    viewPager = binding.pager
-                    viewPager.adapter = demoCollectionAdapter
-                    demoCollectionAdapter.notifyDataSetChanged()
+                    onResume()
+                    return
 //                    findViewById<androidx.fragment.app.FragmentContainerView>(R.id.fragment_hello)
 //                    demoCollectionAdapter = DemoCollectionAdapter(this)
 //                    val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
@@ -53,6 +47,9 @@ class TabLayoutFragment : Fragment() {
                 }
                 1 -> {
                     demoCollectionAdapter.notifyDataSetChanged()
+                }
+                2 -> {
+                    viewPager.currentItem = 4
                 }
             }
         }
@@ -66,7 +63,7 @@ class TabLayoutFragment : Fragment() {
     ): View? {
         Log.e("fragment", "onCreateView")
         _binding = FragmentTabLayoutBinding.inflate(inflater, container, false)
-        for (i in 1..6) {
+        for (i in 1..7) {
             orderItemList.add(ArrayList<OrderItem>())
         }
 //        freshData()
@@ -75,11 +72,12 @@ class TabLayoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.e("fragment", "onViewCreated")
+
         demoCollectionAdapter = DemoCollectionAdapter(this, orderItemList, context)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
-
-
+//        viewPager.currentItem = 3
+        freshData()
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -116,7 +114,33 @@ class TabLayoutFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        freshData()
+        val orderItemList2 = orderItemList
+//        freshData()
+
+        demoCollectionAdapter = DemoCollectionAdapter(
+            this@TabLayoutFragment,
+            orderItemList2,
+            activity
+        )
+//                    demoCollectionAdapter.notifyDataSetChanged()
+        if (viewPager.adapter != null)
+            viewPager.adapter = null
+        viewPager.adapter = demoCollectionAdapter
+//        viewPager.currentItem = 3
+//
+//        viewPager.doOnPreDraw {
+//            viewPager.currentItem = 2
+//        }
+//        Handler().post { viewPager.currentItem = 3 }
+//
+//
+//        viewPager.currentItem = 3
+        viewPager.doOnPreDraw {
+            if (viewPager.adapter != null)
+                viewPager.adapter = null
+            viewPager.adapter = demoCollectionAdapter
+            viewPager.currentItem = 3
+        }
         Log.e("fragment", "onResume")
     }
 
@@ -171,7 +195,8 @@ class TabLayoutFragment : Fragment() {
                                 resultSet.getString("item_name"),
                                 resultSet.getString("pic_url"),
                                 "0",
-                                resultSet.getInt("score")
+                                resultSet.getInt("score"),
+                                resultSet.getInt("order_id")
                             )
                         )
                     }

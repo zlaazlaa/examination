@@ -156,7 +156,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="实付款"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -387,8 +388,8 @@
                     <TextView
                         android:id="@+id/score_now"
                         android:layout_width="0dp"
-                        android:text="0"
-                        android:layout_height="0dp"/>
+                        android:layout_height="0dp"
+                        android:text="0" />
 
                     <View
                         android:layout_width="0dp"

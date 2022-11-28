@@ -1,17 +1,20 @@
 package com.example.examination
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.lifecycle.ViewModelProvider
 
 
 class ShowOrders : AppCompatActivity() {
-//    private val orderItemList = ArrayList<ArrayList<OrderItem>>()
+    //    private val orderItemList = ArrayList<ArrayList<OrderItem>>()
 //    private lateinit var demoCollectionAdapter: DemoCollectionAdapter
+    private val model by lazy {
+        ViewModelProvider(this).get(MyViewModel::class.java)
+    }
+
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         @SuppressLint("NotifyDataSetChanged")
@@ -31,26 +34,16 @@ class ShowOrders : AppCompatActivity() {
             }
         }
     }
-    //    val orderItemList = Array(5) {
-//        Array<OrderItem>(3) {
-//            OrderItem(
-//                0,
-//                0,
-//                "0",
-//                0,
-//                "0",
-//                0,
-//                "0",
-//                "0",
-//                "0",
-//                "0",
-//                "0"
-//            )
-//        }
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_orders)
+
+//        val transaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.fragment_hello, TabLayoutFragment())
+//        transaction.commit()
+//
+//        model.textLiveData.value = "761234561"
+
     }
 }

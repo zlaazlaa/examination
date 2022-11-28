@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">examination</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">商品</string>
+    <string name="title_dashboard">购物车</string>
+    <string name="title_notifications">我的</string>
     <string name="item_picture">item picture</string>
     <string name="my_order">我的订单</string>
     <string name="all">全部</string>
