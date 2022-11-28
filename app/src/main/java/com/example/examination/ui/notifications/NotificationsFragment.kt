@@ -37,6 +37,31 @@ class NotificationsFragment : Fragment() {
             val intent = Intent(activity, ShowOrders::class.java)
             startActivity(intent)
         }
+        binding.waitToPay.setOnClickListener {
+             val intent = Intent(activity, ShowOrders::class.java)
+            intent.putExtra("target_id", "0")
+            startActivity(intent)
+        }
+        binding.waitToSend.setOnClickListener {
+            val intent = Intent(activity, ShowOrders::class.java)
+            intent.putExtra("target_id", "1")
+            startActivity(intent)
+        }
+        binding.sending.setOnClickListener {
+            val intent = Intent(activity, ShowOrders::class.java)
+            intent.putExtra("target_id", "2")
+            startActivity(intent)
+        }
+        binding.waitToScore.setOnClickListener {
+            val intent = Intent(activity, ShowOrders::class.java)
+            intent.putExtra("target_id", "3")
+            startActivity(intent)
+        }
+        binding.scored.setOnClickListener {
+            val intent = Intent(activity, ShowOrders::class.java)
+            intent.putExtra("target_id", "4")
+            startActivity(intent)
+        }
         return root
     }
 

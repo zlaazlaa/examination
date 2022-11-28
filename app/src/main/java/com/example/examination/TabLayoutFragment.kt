@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.examination.databinding.FragmentTabLayoutBinding
 import com.google.android.material.tabs.TabLayout
@@ -25,6 +27,9 @@ class TabLayoutFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private var _binding: FragmentTabLayoutBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MyViewModel by activityViewModels()
+    var targetId: Int = 0
 
     val name = arrayOf("待付款", "待发货", "已发货", "待评价", "已评价")
     private val mHandler = @SuppressLint("HandlerLeak")
@@ -72,6 +77,11 @@ class TabLayoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.e("fragment", "onViewCreated")
+
+        viewModel.selectedItem.observe(viewLifecycleOwner, Observer { item ->
+            // Perform an action with the latest item data
+            targetId = item.toInt()
+        })
 
         demoCollectionAdapter = DemoCollectionAdapter(this, orderItemList, context)
         viewPager = view.findViewById(R.id.pager)
@@ -139,7 +149,7 @@ class TabLayoutFragment : Fragment() {
             if (viewPager.adapter != null)
                 viewPager.adapter = null
             viewPager.adapter = demoCollectionAdapter
-            viewPager.currentItem = 3
+            viewPager.currentItem = targetId
         }
         Log.e("fragment", "onResume")
     }
@@ -171,7 +181,7 @@ class TabLayoutFragment : Fragment() {
     }
 
 
-    fun freshData() {
+    private fun freshData() {
         for (i in 0..5) {
             orderItemList[i].clear()
         }

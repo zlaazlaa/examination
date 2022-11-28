@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 
@@ -14,6 +17,7 @@ class ShowOrders : AppCompatActivity() {
     private val model by lazy {
         ViewModelProvider(this).get(MyViewModel::class.java)
     }
+    private val viewModel: MyViewModel by viewModels()
 
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
@@ -38,7 +42,10 @@ class ShowOrders : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_orders)
-
+        val tt = intent.getStringExtra("target_id")
+        Log.e("tt", tt.toString())
+        intent.getStringExtra("target_id")?.let { viewModel.selectItem(it) }
+//        viewModel.selectItem("124")
 //        val transaction = supportFragmentManager.beginTransaction()
 //        transaction.replace(R.id.fragment_hello, TabLayoutFragment())
 //        transaction.commit()
