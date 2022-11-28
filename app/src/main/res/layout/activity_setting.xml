@@ -39,10 +39,10 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:enabled="false"
                         android:id="@+id/name_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -62,10 +62,10 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:enabled="false"
                         android:id="@+id/phone_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -84,10 +84,10 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:enabled="false"
                         android:id="@+id/address_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -106,10 +106,10 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:enabled="false"
                         android:id="@+id/other_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -128,10 +128,10 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:enabled="false"
                         android:id="@+id/pay_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:textSize="18sp" />
 
                 </LinearLayout>

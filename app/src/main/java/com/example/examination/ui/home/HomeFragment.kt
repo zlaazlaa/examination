@@ -1,22 +1,24 @@
 package com.example.examination.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.examination.MySQL
-import com.example.examination.R
+import com.example.examination.*
 import com.example.examination.databinding.FragmentHomeBinding
-import com.example.examination.item
-import com.example.examination.itemAdapter
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.adapter.TabAdapter
 import q.rorbin.verticaltablayout.widget.ITabView
@@ -35,6 +37,7 @@ class HomeFragment : Fragment() {
     lateinit var adapter: itemAdapter
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
+        @SuppressLint("NotifyDataSetChanged")
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
@@ -71,12 +74,14 @@ class HomeFragment : Fragment() {
                     try {
                         val layoutManager = LinearLayoutManager(activity)
                         binding.recyclerView.layoutManager = layoutManager
-                        adapter = activity?.let { itemAdapter(
-                            homeViewModel.itemList,
-                            it,
-                            0,
-                            null
-                        ) }!!
+                        adapter = activity?.let {
+                            itemAdapter(
+                                homeViewModel.itemList,
+                                it,
+                                0,
+                                null
+                            )
+                        }!!
                         binding.recyclerView.adapter = adapter
                     } catch (e: java.lang.NullPointerException) {
                         Log.e("error", "java.lang.NullPointerException")
@@ -85,7 +90,8 @@ class HomeFragment : Fragment() {
                 2 -> {
 //                    adapter.notifyItemRangeRemoved(0, homeViewModel.itemList.size);
                     try {
-                        adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
+                        adapter.notifyDataSetChanged()
+//                        adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
                     } catch (e: java.lang.IndexOutOfBoundsException) {
                         Log.e("error", "java.lang.IndexOutOfBoundsException")
                     }
@@ -107,6 +113,20 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        binding.searchBtn.setOnClickListener {
+            val intent = Intent(activity, SearchItem::class.java)
+            intent.putExtra("search_txt", binding.searchTxt.text.toString())
+            startActivity(intent)
+        }
+
+        binding.searchTxt.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val intent = Intent(activity, SearchItem::class.java)
+                intent.putExtra("search_txt", textView.text.toString())
+                startActivity(intent)
+            }
+            false
+        }
 
         thread {
             val mysql = MySQL()

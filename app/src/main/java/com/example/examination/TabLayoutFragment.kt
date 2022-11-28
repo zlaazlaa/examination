@@ -69,7 +69,7 @@ class TabLayoutFragment : Fragment() {
         for (i in 1..6) {
             orderItemList.add(ArrayList<OrderItem>())
         }
-        freshData()
+//        freshData()
         return inflater.inflate(R.layout.fragment_tab_layout, container, false)
     }
 
@@ -78,7 +78,7 @@ class TabLayoutFragment : Fragment() {
         demoCollectionAdapter = DemoCollectionAdapter(this, orderItemList, context)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
-        freshData()
+
 
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
@@ -183,7 +183,7 @@ class TabLayoutFragment : Fragment() {
                     }
                 }
                 mHandler.sendEmptyMessage(0)
-                mHandler.sendEmptyMessage(1)
+//                mHandler.sendEmptyMessage(1)
             } finally {
 
             }
