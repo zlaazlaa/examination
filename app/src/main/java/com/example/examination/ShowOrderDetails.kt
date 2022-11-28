@@ -85,15 +85,22 @@ class ShowOrderDetails : AppCompatActivity() {
                 try {
                     val mysql = MySQL()
                     mysql.connect()
-                    val sql =
+                    var sql =
                         "update order_item set score = ${binding.scoreNow.text} where idorder_item = $idOrderItem;"
                     val result = MySQL.ps?.executeUpdate(sql)
                     if (result != null) {
                         if (result > 0) {
-//                            sql =
-//                                "update orders set statement where order_id = (select orders.order_id from order_item, orders where (order_item.order_id = orders.order_id) and (order_item.idorder_item = $idOrderItem));"
-//                            MySQL.ps?.executeUpdate(sql)
-                            mHandler.sendEmptyMessage(0)
+                            thread {
+                                try {
+                                    sql =
+                                        "update orders set statement = 5 where order_id = $order_id;"
+                                    MySQL.ps?.executeUpdate(sql)
+                                    mHandler.sendEmptyMessage(0)
+                                } finally {
+
+                                }
+                            }
+
                         } else {
                             mHandler.sendEmptyMessage(1)
                         }
@@ -124,7 +131,8 @@ class ShowOrderDetails : AppCompatActivity() {
                                 thread {
                                     try {
                                         // delete order
-                                        sql = "update orders set statement = 6 where order_id = $order_id;"
+                                        sql =
+                                            "update orders set statement = 6 where order_id = $order_id;"
                                         val result2 = MySQL.ps?.executeUpdate(sql)
                                         if (result2 != null) {
                                             if (result2 > 0) {

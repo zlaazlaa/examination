@@ -13,11 +13,13 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.examination.databinding.FragmentTabLayoutBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlin.concurrent.thread
+
 
 class TabLayoutFragment : Fragment() {
     // When requested, this adapter returns a DemoObjectFragment,
@@ -75,6 +77,7 @@ class TabLayoutFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_tab_layout, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.e("fragment", "onViewCreated")
 
@@ -86,7 +89,7 @@ class TabLayoutFragment : Fragment() {
         demoCollectionAdapter = DemoCollectionAdapter(this, orderItemList, context)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
-//        viewPager.currentItem = 3
+        viewPager.setPageTransformer(CompositePageTransformer())
         freshData()
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
@@ -94,11 +97,24 @@ class TabLayoutFragment : Fragment() {
 //            tab.text = "OBJECT ${(position + 1)}"
             tab.text = name[position]
         }.attach()
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        val aaa = 123
+//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab) {
+//                viewModel.selectItem(tab.position.toString())
+////                targetId = tab.position
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//                if (tab != null) {
+//                    Log.e("tag", tab.tag.toString())
+//                }
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//                if (tab != null) {
+//                    Log.e("tag", tab.tag.toString())
+//                }
+//            }
+//        })
     }
 
     override fun onAttach(context: Context) {
