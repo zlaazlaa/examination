@@ -30,6 +30,12 @@ class ShowOrderDetails : AppCompatActivity() {
                 1 -> {
                     Toast.makeText(this@ShowOrderDetails, "评价失败", Toast.LENGTH_SHORT).show()
                 }
+                2 -> {
+                    Toast.makeText(this@ShowOrderDetails, "收货成功", Toast.LENGTH_SHORT).show()
+                }
+                3 -> {
+                    Toast.makeText(this@ShowOrderDetails, "收获失败", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -62,21 +68,54 @@ class ShowOrderDetails : AppCompatActivity() {
         binding.star4.setOnClickListener(Listener())
         binding.star5.setOnClickListener(Listener())
         binding.scoreBtn.setOnClickListener {
+            if (binding.orderStatus.text != "待评价") {
+                Toast.makeText(this, "当前状态不能评价", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             thread {
                 try {
                     val mysql = MySQL()
                     mysql.connect()
-                    val sql =
+                    var sql =
                         "update order_item set score = ${binding.scoreNow.text} where idorder_item = $idOrderItem;"
                     val result = MySQL.ps?.executeUpdate(sql)
                     if (result != null) {
                         if (result > 0) {
+                            sql =
+                                "update orders set statement = 5 where order_id = (select order_id from order_item where idorder_item = $idOrderItem);"
+                            MySQL.ps?.executeUpdate(sql)
                             mHandler.sendEmptyMessage(0)
                         } else {
                             mHandler.sendEmptyMessage(1)
                         }
                     } else {
                         mHandler.sendEmptyMessage(1)
+                    }
+                } finally {
+
+                }
+            }
+        }
+        binding.confirmOrder.setOnClickListener {
+            if (binding.orderStatus.text != "已发货") {
+                Toast.makeText(this, "当前状态不能收货", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            thread {
+                try {
+                    val mysql = MySQL()
+                    mysql.connect()
+                    val sql =
+                        "update orders set statement = 4 where order_id = (select order_id from order_item where idorder_item = $idOrderItem);"
+                    val result = MySQL.ps?.executeUpdate(sql)
+                    if (result != null) {
+                        if (result > 0) {
+                            mHandler.sendEmptyMessage(2)
+                        } else {
+                            mHandler.sendEmptyMessage(2)
+                        }
+                    } else {
+                        mHandler.sendEmptyMessage(2)
                     }
                 } finally {
 

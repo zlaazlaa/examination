@@ -1,9 +1,11 @@
 package com.example.examination
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +51,9 @@ class TabLayoutFragment : Fragment() {
 //                        tab.text = "OBJECT ${(position + 1)}"
 //                    }.attach()
                 }
+                1 -> {
+                    demoCollectionAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
@@ -59,6 +64,7 @@ class TabLayoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.e("fragment", "onCreateView")
         _binding = FragmentTabLayoutBinding.inflate(inflater, container, false)
         for (i in 1..6) {
             orderItemList.add(ArrayList<OrderItem>())
@@ -68,9 +74,11 @@ class TabLayoutFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.e("fragment", "onViewCreated")
         demoCollectionAdapter = DemoCollectionAdapter(this, orderItemList, context)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
+        freshData()
 
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
@@ -79,6 +87,65 @@ class TabLayoutFragment : Fragment() {
             tab.text = name[position]
         }.attach()
     }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        val aaa = 123
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.e("fragment", "onAttach")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.e("fragment", "onActivityCreated")
+    }
+
+    override fun onPrimaryNavigationFragmentChanged(isPrimaryNavigationFragment: Boolean) {
+        super.onPrimaryNavigationFragmentChanged(isPrimaryNavigationFragment)
+        Log.e("fragment", "onPrimaryNavigationFragmentChanged")
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("fragment", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        freshData()
+        Log.e("fragment", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("fragment", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("fragment", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("fragment", "onDestroy")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("fragment", "onDestroyView")
+    }
+
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e("fragment", "onDetach")
+    }
+
 
     fun freshData() {
         for (i in 0..5) {
@@ -100,7 +167,7 @@ class TabLayoutFragment : Fragment() {
                                 resultSet.getString("price"),
                                 resultSet.getInt("buy_number"),
                                 resultSet.getString("shop_name"),
-                                0,
+                                resultSet.getInt("statement") - 1,
                                 resultSet.getString("item_name"),
                                 resultSet.getString("pic_url"),
                                 "0",
@@ -116,6 +183,7 @@ class TabLayoutFragment : Fragment() {
                     }
                 }
                 mHandler.sendEmptyMessage(0)
+                mHandler.sendEmptyMessage(1)
             } finally {
 
             }
