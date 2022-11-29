@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:contentDescription="TODO"
         android:src="@drawable/cargo"
+        android:stateListAnimator="@null"
+        app:backgroundTint="@color/purple_500"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/purple_200" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"

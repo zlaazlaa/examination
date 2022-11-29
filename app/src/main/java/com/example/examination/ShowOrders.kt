@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -42,8 +43,11 @@ class ShowOrders : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_orders)
-        val tt = intent.getStringExtra("target_id")
-        Log.e("tt", tt.toString())
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = "我的订单"
+            actionBar.setDisplayHomeAsUpEnabled(true)
+        }
         intent.getStringExtra("target_id")?.let { viewModel.selectItem(it) }
 //        viewModel.selectItem("124")
 //        val transaction = supportFragmentManager.beginTransaction()
@@ -52,5 +56,10 @@ class ShowOrders : AppCompatActivity() {
 //
 //        model.textLiveData.value = "761234561"
 
+    }
+
+    override fun onOptionsItemSelected(menu_item: MenuItem): Boolean {
+        this.finish()
+        return true
     }
 }

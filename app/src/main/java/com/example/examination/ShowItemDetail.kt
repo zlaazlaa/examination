@@ -18,9 +18,9 @@ class ShowItemDetail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShowItemDetailBinding.inflate(layoutInflater)
+
         val view = binding.root
         setContentView(view)
-
         val itemName = intent.getStringExtra("item_name")
         val itemPrice = intent.getStringExtra("item_price")
         val buyerSum = intent.getStringExtra("buyer_sum")

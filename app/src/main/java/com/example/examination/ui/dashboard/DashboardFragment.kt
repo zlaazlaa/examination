@@ -13,10 +13,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.examination.*
 import com.example.examination.databinding.FragmentDashboardBinding
-import okhttp3.internal.notifyAll
 import java.sql.SQLException
 import kotlin.concurrent.thread
 
@@ -29,7 +27,7 @@ class DashboardFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    lateinit var adapter: itemAdapter
+    lateinit var adapter: ItemAdapter
 
     private val mHandler2 = @SuppressLint("HandlerLeak")
     object : Handler() {
@@ -57,7 +55,7 @@ class DashboardFragment : Fragment() {
                         binding.recyclerView.layoutManager = layoutManager
                         adapter =
                             activity?.let {
-                                itemAdapter(
+                                ItemAdapter(
                                     dashboardViewModel.itemList,
                                     it,
                                     1,

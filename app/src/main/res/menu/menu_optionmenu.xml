@@ -6,7 +6,6 @@
         android:iconTint="@color/purple_200"
         android:title="清空购物车" />
 
-
     <item
         android:id="@+id/menu2"
         android:iconTint="@color/purple_200"

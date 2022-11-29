@@ -1,7 +1,6 @@
 package com.example.examination
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -11,14 +10,12 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import q.rorbin.verticaltablayout.adapter.TabAdapter
-import q.rorbin.verticaltablayout.widget.ITabView
 import java.sql.SQLException
 import kotlin.concurrent.thread
 
 class SearchItem : AppCompatActivity() {
     private val itemList = ArrayList<item>()
-    lateinit var adapter: itemAdapter
+    lateinit var adapter: ItemAdapter
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -29,7 +26,7 @@ class SearchItem : AppCompatActivity() {
                         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
                         val layoutManager = LinearLayoutManager(this@SearchItem)
                         recyclerView.layoutManager = layoutManager
-                        adapter = itemAdapter(
+                        adapter = ItemAdapter(
                             itemList,
                             this@SearchItem,
                             0,
@@ -48,7 +45,10 @@ class SearchItem : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_item)
-//        getAllItem()
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = "商品搜索"
+        }
         val searchTxt = intent.getStringExtra("search_txt")
         findViewById<MaterialButton>(R.id.search_btn).setOnClickListener {
             itemList.clear()

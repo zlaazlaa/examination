@@ -2,19 +2,15 @@ package com.example.examination
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.examination.databinding.ActivityShowItemDetailBinding
 import com.example.examination.databinding.ActivityShowOrderDetailsBinding
 import kotlin.concurrent.thread
 
@@ -49,6 +45,10 @@ class ShowOrderDetails : AppCompatActivity() {
         binding = ActivityShowOrderDetailsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = "订单详情"
+        }
         binding.itemName.text = intent.getStringExtra("item_name")
         binding.itemPrice.text = intent.getStringExtra("item_price")
         binding.itemNumber.text = intent.getStringExtra("item_number")
@@ -59,13 +59,10 @@ class ShowOrderDetails : AppCompatActivity() {
         val idOrderItem = intent.getStringExtra("id_order_item").toString().toInt()
         val itemId = intent.getStringExtra("item_id")
         val score = binding.scoreNow.text.toString().toInt()
-        val order_id = intent.getStringExtra("order_id")
+        val orderId = intent.getStringExtra("order_id")
         if (score in 1..5) {
             Listener().lightStar(score - 1)
         }
-//        intent.getStringExtra("id_order_item")?.let {
-//            Listener().lightStar(it.toInt())
-//        }
         val imgUrl = intent.getStringExtra("img_url")
         Glide.with(this).load(imgUrl).into(binding.itemImage)
         binding.star1.setOnClickListener(Listener())
@@ -93,14 +90,13 @@ class ShowOrderDetails : AppCompatActivity() {
                             thread {
                                 try {
                                     sql =
-                                        "update orders set statement = 5 where order_id = $order_id;"
+                                        "update orders set statement = 5 where order_id = $orderId;"
                                     MySQL.ps?.executeUpdate(sql)
                                     mHandler.sendEmptyMessage(0)
                                 } finally {
 
                                 }
                             }
-
                         } else {
                             mHandler.sendEmptyMessage(1)
                         }
@@ -132,7 +128,7 @@ class ShowOrderDetails : AppCompatActivity() {
                                     try {
                                         // delete order
                                         sql =
-                                            "update orders set statement = 6 where order_id = $order_id;"
+                                            "update orders set statement = 6 where order_id = $orderId;"
                                         val result2 = MySQL.ps?.executeUpdate(sql)
                                         if (result2 != null) {
                                             if (result2 > 0) {
@@ -183,33 +179,10 @@ class ShowOrderDetails : AppCompatActivity() {
                 }
             }
         }
-////        val byte = intent.getByteArrayExtra("item_img")
-//        val bitmap = intent.getParcelableExtra("item_img")
-//        if (byte != null) {
-//            val map = BitmapFactory.decodeByteArray(byte, 0, byte.size)
-//            binding.itemImage.setImageDrawable(BitmapDrawable(resources, map))
-//        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val aa = 123
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        val aa = 1
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onPause() {
-        super.onPause()
-//        TabLayoutFragment().freshData()
-//        TabLayoutFragment().demoCollectionAdapter.notifyDataSetChanged()
     }
 
     inner class Listener : View.OnClickListener {
-        val arrayId = arrayOf(R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5)
+        private val arrayId = arrayOf(R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5)
         override fun onClick(p0: View?) {
             when (p0?.id) {
                 R.id.star1 -> {

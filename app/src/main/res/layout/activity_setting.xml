@@ -155,7 +155,7 @@
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/teal_700"
+                android:backgroundTint="@color/purple_500"
                 android:text="@string/edit_info" />
 
             <View
@@ -167,7 +167,7 @@
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/teal_700"
+                android:backgroundTint="@color/purple_500"
                 android:text="@string/confirm_edit" />
 
             <View

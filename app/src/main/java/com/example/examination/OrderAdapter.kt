@@ -75,9 +75,9 @@ class OrderAdapter(private val orderItemList: ArrayList<OrderItem>, private val 
                 intent.putExtra("price_total", holder.priceTotal.text)
                 intent.putExtra("score", orderItem.score.toString())
 //                intent.putExtra("item_img", byte)
-                intent.putExtra("item_img", holder.itemImg.getDrawingCache())
+                intent.putExtra("item_img", holder.itemImg.drawingCache)
                 intent.putExtra("order_id", orderItem.orderId.toString())
-                holder.itemImg.setDrawingCacheEnabled(true)
+                holder.itemImg.isDrawingCacheEnabled = true
                 intent.putExtra("order_status", holder.orderStatus.text)
                 ContextCompat.startActivity(context, intent, bundle)
             } catch (e: java.lang.IllegalStateException) {

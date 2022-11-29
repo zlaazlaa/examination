@@ -24,13 +24,13 @@ import java.io.ByteArrayOutputStream
 import kotlin.concurrent.thread
 
 
-class itemAdapter(
+class ItemAdapter(
     private val itemList: ArrayList<item>,
     private val context: Context,
-    val tag: Int,
-    val mHandler2: Handler?,
+    private val tag: Int,
+    private val mHandler2: Handler?,
 ) :
-    RecyclerView.Adapter<itemAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val itemImage: ImageView = view.findViewById(R.id.item_image)
         val itemName: TextView = view.findViewById(R.id.item_name)
@@ -45,7 +45,7 @@ class itemAdapter(
         val upImg: ImageView = view.findViewById(R.id.up_img)
         val downImg: ImageView = view.findViewById(R.id.down_img)
         val checkBox: CheckBox = view.findViewById(R.id.check_box)
-        val xxx:TextView = view.findViewById(R.id.xxx)
+        val xxx: TextView = view.findViewById(R.id.xxx)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

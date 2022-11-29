@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,7 +23,7 @@ import kotlin.concurrent.thread
 
 
 class CommitOrder : AppCompatActivity() {
-    lateinit var adapter: itemAdapter
+    lateinit var adapter: ItemAdapter
     lateinit var binding: ActivityCommitOrderBinding
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var mDialogBehavior: BottomSheetBehavior<View>
@@ -35,7 +36,7 @@ class CommitOrder : AppCompatActivity() {
                 0 -> {
                     val layoutManager = LinearLayoutManager(this@CommitOrder)
                     binding.recyclerView.layoutManager = layoutManager
-                    adapter = itemAdapter(
+                    adapter = ItemAdapter(
                         itemList,
                         this@CommitOrder,
                         2,
@@ -87,6 +88,11 @@ class CommitOrder : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCommitOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = "订单提交"
+            actionBar.setDisplayHomeAsUpEnabled(true)
+        }
         arrayId = intent.getIntegerArrayListExtra("id") as ArrayList<Int>
         updateDetails()
         var sql = "select * from items WHERE id in ("
@@ -169,6 +175,11 @@ class CommitOrder : AppCompatActivity() {
 //                }
 //            }
         }
+    }
+
+    override fun onOptionsItemSelected(menu_item: MenuItem): Boolean {
+        this.finish()
+        return true
     }
 
     override fun onResume() {

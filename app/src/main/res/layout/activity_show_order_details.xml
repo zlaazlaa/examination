@@ -23,7 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical"
                 android:padding="5dp"
                 android:transitionName="card_layout"
@@ -489,7 +491,7 @@
                 android:id="@+id/cancel_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#8660C8"
+                android:backgroundTint="@color/purple_500"
                 android:text="取消订单"
                 app:cornerRadius="15dp" />
 
@@ -498,7 +500,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:backgroundTint="#8660C8"
+                android:backgroundTint="@color/purple_500"
                 android:text="确认收货"
                 app:cornerRadius="15dp" />
 

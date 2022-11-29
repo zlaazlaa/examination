@@ -17,7 +17,8 @@
             android:layout_gravity="bottom|right"
             android:contentDescription="TODO"
             android:src="@drawable/go"
-            app:backgroundTint="#6094ed"
+            android:stateListAnimator="@null"
+            app:backgroundTint="@color/purple_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="RtlHardcoded" />
@@ -62,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
-            android:background="#d2def4"
+            android:background="#FDE2CD"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent">
 

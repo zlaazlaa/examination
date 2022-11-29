@@ -7,13 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +31,7 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    lateinit var adapter: itemAdapter
+    lateinit var adapter: ItemAdapter
     private val mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         @SuppressLint("NotifyDataSetChanged")
@@ -75,7 +72,7 @@ class HomeFragment : Fragment() {
                         val layoutManager = LinearLayoutManager(activity)
                         binding.recyclerView.layoutManager = layoutManager
                         adapter = activity?.let {
-                            itemAdapter(
+                            ItemAdapter(
                                 homeViewModel.itemList,
                                 it,
                                 0,
