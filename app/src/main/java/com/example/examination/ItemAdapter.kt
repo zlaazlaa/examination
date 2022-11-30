@@ -122,7 +122,7 @@ class ItemAdapter(
         }
     }
 
-    fun upAndDown(tag: Int, pos: Int, holder: ViewHolder) {
+    private fun upAndDown(tag: Int, pos: Int, holder: ViewHolder) {
         val item = itemList[pos]
         if (item.number + tag >= 0) {
             item.number += tag
@@ -145,7 +145,7 @@ class ItemAdapter(
         return itemList.size
     }
 
-    fun bmpToByteArray(bmp: Bitmap): ByteArray {
+    private fun bmpToByteArray(bmp: Bitmap): ByteArray {
         val output = ByteArrayOutputStream()
         bmp.compress(Bitmap.CompressFormat.PNG, 100, output)
 

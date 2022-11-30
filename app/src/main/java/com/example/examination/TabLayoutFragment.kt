@@ -1,7 +1,6 @@
 package com.example.examination
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -43,14 +42,6 @@ class TabLayoutFragment : Fragment() {
                 0 -> {
                     onResume()
                     return
-//                    findViewById<androidx.fragment.app.FragmentContainerView>(R.id.fragment_hello)
-//                    demoCollectionAdapter = DemoCollectionAdapter(this)
-//                    val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-//                    val viewPager = findViewById<ViewPager2>(R.id.view_pager)
-//                    viewPager.adapter = demoCollectionAdapter
-//                    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-//                        tab.text = "OBJECT ${(position + 1)}"
-//                    }.attach()
                 }
                 1 -> {
                     demoCollectionAdapter.notifyDataSetChanged()
@@ -73,129 +64,44 @@ class TabLayoutFragment : Fragment() {
         for (i in 1..7) {
             orderItemList.add(ArrayList<OrderItem>())
         }
-//        freshData()
         return inflater.inflate(R.layout.fragment_tab_layout, container, false)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.e("fragment", "onViewCreated")
-
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer { item ->
             // Perform an action with the latest item data
             targetId = item.toInt()
         })
-
         demoCollectionAdapter = DemoCollectionAdapter(this, orderItemList, context)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionAdapter
         viewPager.setPageTransformer(CompositePageTransformer())
         freshData()
-
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-//            tab.text = "OBJECT ${(position + 1)}"
             tab.text = name[position]
         }.attach()
-//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab) {
-//                viewModel.selectItem(tab.position.toString())
-////                targetId = tab.position
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//                if (tab != null) {
-//                    Log.e("tag", tab.tag.toString())
-//                }
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//                if (tab != null) {
-//                    Log.e("tag", tab.tag.toString())
-//                }
-//            }
-//        })
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.e("fragment", "onAttach")
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Log.e("fragment", "onActivityCreated")
-    }
-
-    override fun onPrimaryNavigationFragmentChanged(isPrimaryNavigationFragment: Boolean) {
-        super.onPrimaryNavigationFragmentChanged(isPrimaryNavigationFragment)
-        Log.e("fragment", "onPrimaryNavigationFragmentChanged")
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        Log.e("fragment", "onStart")
     }
 
     override fun onResume() {
         super.onResume()
         val orderItemList2 = orderItemList
-//        freshData()
-
         demoCollectionAdapter = DemoCollectionAdapter(
             this@TabLayoutFragment,
             orderItemList2,
             activity
         )
-//                    demoCollectionAdapter.notifyDataSetChanged()
         if (viewPager.adapter != null)
             viewPager.adapter = null
         viewPager.adapter = demoCollectionAdapter
-//        viewPager.currentItem = 3
-//
-//        viewPager.doOnPreDraw {
-//            viewPager.currentItem = 2
-//        }
-//        Handler().post { viewPager.currentItem = 3 }
-//
-//
-//        viewPager.currentItem = 3
         viewPager.doOnPreDraw {
             if (viewPager.adapter != null)
                 viewPager.adapter = null
             viewPager.adapter = demoCollectionAdapter
             viewPager.currentItem = targetId
         }
-        Log.e("fragment", "onResume")
     }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("fragment", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.e("fragment", "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("fragment", "onDestroy")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.e("fragment", "onDestroyView")
-    }
-
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.e("fragment", "onDetach")
-    }
-
 
     private fun freshData() {
         for (i in 0..5) {
@@ -234,7 +140,6 @@ class TabLayoutFragment : Fragment() {
                     }
                 }
                 mHandler.sendEmptyMessage(0)
-//                mHandler.sendEmptyMessage(1)
             } finally {
 
             }

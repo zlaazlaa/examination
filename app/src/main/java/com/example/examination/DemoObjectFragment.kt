@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class DemoObjectFragment(
-    val orderItemList: ArrayList<ArrayList<OrderItem>>,
-    val position: Int,
-    val context1: Context?
+    private val orderItemList: ArrayList<ArrayList<OrderItem>>,
+    private val position: Int,
+    private val context1: Context?
 ) : Fragment() {
     //    private lateinit var demoCollectionAdapter: DemoCollectionAdapter
     private val ARG_OBJECT = "object"

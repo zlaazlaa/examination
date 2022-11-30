@@ -102,39 +102,4 @@ class SearchItem : AppCompatActivity() {
             }
         }
     }
-
-    private fun getAllItem() {
-        thread {
-            try {
-                val mysql = MySQL()
-                mysql.connect()
-                val sql = "select * from items;"
-                val resultSet = MySQL.ps?.executeQuery(sql)
-                itemList.clear()
-                if (resultSet != null) {
-                    while (resultSet.next()) {
-                        itemList.add(
-                            item(
-                                resultSet.getInt("id"),
-                                resultSet.getString("type"),
-                                resultSet.getString("price"),
-                                resultSet.getString("item_name"),
-                                resultSet.getString("buyer_sum"),
-                                resultSet.getString("shop_name"),
-                                resultSet.getString("shop_locate"),
-                                resultSet.getString("pic_url"),
-                                resultSet.getInt("number"),
-                                false
-                            )
-                        )
-                    }
-                }
-                mHandler.sendEmptyMessage(0)
-            } catch (e: NullPointerException) {
-                Log.e("MySQL", "nullPointerERROR")
-            } catch (e: SQLException) {
-                Log.e("MySQL", "Operation not allowed after ResultSet closed")
-            }
-        }
-    }
 }

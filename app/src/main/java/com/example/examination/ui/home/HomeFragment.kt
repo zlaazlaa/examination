@@ -85,10 +85,8 @@ class HomeFragment : Fragment() {
                     }
                 }
                 2 -> {
-//                    adapter.notifyItemRangeRemoved(0, homeViewModel.itemList.size);
                     try {
                         adapter.notifyDataSetChanged()
-//                        adapter.notifyItemRangeChanged(0, homeViewModel.itemList.size)
                     } catch (e: java.lang.IndexOutOfBoundsException) {
                         Log.e("error", "java.lang.IndexOutOfBoundsException")
                     }

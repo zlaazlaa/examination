@@ -3,7 +3,6 @@ package com.example.examination.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.examination.MySQL
 import com.example.examination.item
 
 class HomeViewModel : ViewModel() {

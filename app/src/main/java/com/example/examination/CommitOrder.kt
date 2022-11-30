@@ -149,31 +149,6 @@ class CommitOrder : AppCompatActivity() {
                 )
                 return@setOnClickListener
             }
-//            if (size > 0) {
-//                for (i in arrayId) {
-//                    sql += "${itemList[i].id}', '"
-//                }
-//                sql = sql.dropLast(3)
-//                sql += ")"
-//                thread {
-//                    try {
-//                        val mysql = MySQL()
-//                        mysql.connect()
-//                        if (MySQL.ps?.executeUpdate(sql)!! > 0) {
-//                            Log.e("OK", "OK")
-//                        }
-//                    } finally {
-//                        Log.e("ERROR", "ERROR16674")
-//                    }
-//                }
-//    //                sql = "insert into android.order(statement, price_sum, name, phone, address, other_info, order_score) values "
-//    //                sql += "(0, ${binding.totalPrice.text}, )"
-//                "SELECT LAST_INSERT_ID();"
-//                sql = "insert into android.order_item(item_id, order_id, price, buy_number, price_total) values "
-//                for (i in arrayId) {
-//    //                    sql += "(${itemList[i].id}, ${itemList[i].}), "
-//                }
-//            }
         }
     }
 
@@ -244,9 +219,6 @@ class CommitOrder : AppCompatActivity() {
                 var orderId = 1
                 val mysql = MySQL()
                 mysql.connect()
-//                    MySQL.ps = MySQL.cn?.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-//                    var result = 1
-//                    val result = MySQL.ps?.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS)
                 var result = MySQL.ps?.executeUpdate(sql)
                 if (result != null) {
                     if (result > 0) {

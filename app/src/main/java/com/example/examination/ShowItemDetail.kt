@@ -5,10 +5,8 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.example.examination.databinding.ActivityMainBinding
 import com.example.examination.databinding.ActivityShowItemDetailBinding
 import kotlin.concurrent.thread
 
@@ -45,18 +43,17 @@ class ShowItemDetail : AppCompatActivity() {
                 mysql.connect()
                 val resultSet =
                     MySQL.ps?.executeQuery("select * from items where id = '$itemId' limit 1;")
-                if (resultSet != null) {
+                tag = if (resultSet != null) {
                     if (!resultSet.next()) {
-                        tag = 0
+                        0
                     } else {
                         var number = resultSet.getInt("number")
                         number++
                         mysql.connect()
-                        tag =
-                            MySQL.ps?.executeUpdate("update items set number=$number where id=$itemId")!!
+                        MySQL.ps?.executeUpdate("update items set number=$number where id=$itemId")!!
                     }
                 } else {
-                    tag = 0
+                    0
                 }
                 Looper.prepare()
                 if (tag > 0) {

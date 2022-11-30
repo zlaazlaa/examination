@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.util.Log
 import android.util.Pair
 import android.view.LayoutInflater
@@ -14,10 +13,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import java.io.ByteArrayOutputStream
 
 class OrderAdapter(private val orderItemList: ArrayList<OrderItem>, private val context: Context) :
     RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
@@ -74,7 +71,6 @@ class OrderAdapter(private val orderItemList: ArrayList<OrderItem>, private val 
                 intent.putExtra("shop_name", holder.shopName.text)
                 intent.putExtra("price_total", holder.priceTotal.text)
                 intent.putExtra("score", orderItem.score.toString())
-//                intent.putExtra("item_img", byte)
                 intent.putExtra("item_img", holder.itemImg.drawingCache)
                 intent.putExtra("order_id", orderItem.orderId.toString())
                 holder.itemImg.isDrawingCacheEnabled = true
@@ -89,18 +85,5 @@ class OrderAdapter(private val orderItemList: ArrayList<OrderItem>, private val 
 
     override fun getItemCount(): Int {
         return orderItemList.size
-    }
-
-    private fun bmpToByteArray(bmp: Bitmap): ByteArray {
-        val output = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, output)
-
-        val result = output.toByteArray()
-        try {
-            output.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return result
     }
 }
